@@ -1,10 +1,13 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" data-theme="amber">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>luthia-client</title>
+    <title>Luthia — Where Tone Begins</title>
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <!-- Theme init: runs before first paint to prevent flash -->
+    <script>!function(){var e=localStorage.getItem("luthia-mode"),t=localStorage.getItem("luthia-theme"),a=document.documentElement;"light"===e&&a.classList.add("light"),t&&["beeswax","amber","maple","mahogany","spruce"].indexOf(t)!==-1?a.setAttribute("data-theme",t):a.setAttribute("data-theme","amber")}();</script>
   </head>
   <body>
     <div id="root"></div>

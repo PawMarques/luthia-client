@@ -1,0 +1,412 @@
+/*
+═══════════════════════════════════════════════════════════════════
+   LUTHIA — Tailwind v4 Theme
+   For React + shadcn/ui migration
+
+   Derived from: luthia-css-theme-reference.md
+   Source files: luthia-dark.css, luthia-light.css, luthia-primary.css
+
+   ARCHITECTURE
+   ────────────────────────────────────────────────────────────────
+   This single file replaces both luthia-tailwind-theme.css and
+   luthia-tailwind-config.js for Tailwind v4 projects.
+
+   It contains:
+     1. CSS custom properties (:root / .light) — runtime values
+     2. @theme inline blocks — register variables as Tailwind
+        utility classes without build-time resolution
+
+   Import this in your main CSS entry point:
+     @import "tailwindcss";
+     @import "./luthia-theme.css";
+
+   Usage in JSX:
+     <div className="bg-background text-foreground border-border" />
+     <button className="bg-accent text-accent-foreground" />
+     <span className="text-text-muted" />
+     <div className="font-brand italic" />
+═══════════════════════════════════════════════════════════════════
+*/
+
+
+/* ════════════════════════════════════════════════════════════════
+   SECTION 1 — CSS Custom Properties (runtime values)
+   ════════════════════════════════════════════════════════════════ */
+
+
+/* ── Dark mode (default) ────────────────────────────────────── */
+
+:root {
+  /* ── Surfaces ── */
+  --background:        #111113;
+  --foreground:        #f4f4f5;
+  --card:              #18181b;
+  --card-foreground:   #f4f4f5;
+  --popover:           #18181b;
+  --popover-foreground:#f4f4f5;
+  --muted:             #27272a;
+  --muted-foreground:  #a1a1aa;
+
+  /* ── Borders & inputs ── */
+  --border:            #27272a;
+  --border-strong:     #3f3f46;
+  --input:             #1c1c1e;
+  --input-border:      #2e2e32;
+  --ring:              var(--accent);
+
+  /* ── Text hierarchy ── */
+  --text-primary:      #f4f4f5;
+  --text-secondary:    #d4d4d8;
+  --text-tertiary:     #a1a1aa;
+  --text-muted:        #52525b;
+  --text-faint:        #3f3f46;
+  --text-dim:          #71717a;
+
+  /* ── Interactive states ── */
+  --hover-bg:          rgba(255, 255, 255, 0.06);
+  --surface-raised:    rgba(255, 255, 255, 0.04);
+  --row-border:        #1f1f23;
+  --row-hover:         #1c1c1e;
+
+  /* ── Sidebar-specific ── */
+  --sidebar-rail:      #3f3f46;
+  --sidebar-hover:     #1c1c1e;
+
+  /* ── Semantic ── */
+  --success:           #34d399;
+  --success-foreground:#0e0e10;
+  --error:             #f87171;
+  --error-foreground:  #ffffff;
+  --error-bg:          #ef4444;
+  --warning:           #f59e0b;
+  --warning-foreground:#0e0e10;
+  --info:              #60a5fa;
+  --info-foreground:   #ffffff;
+  --destructive:       #ef4444;
+  --destructive-foreground: #ffffff;
+
+  /* ── Edit mode (blue) ── */
+  --edit-accent:       #3b82f6;
+  --edit-bg:           #2563eb;
+  --edit-surface:      #0f1929;
+  --edit-active-row:   #1a2235;
+
+  /* ── Toggle ── */
+  --toggle-on:         #16a34a;
+
+  /* ── Category badges ── */
+  --cat-body-bg:        #2a1f14;
+  --cat-body-text:      #c4956a;
+  --cat-body-border:    #6b3f1f;
+  --cat-neck-bg:        #2a1218;
+  --cat-neck-text:      #c47a88;
+  --cat-neck-border:    #6b2535;
+  --cat-fretboard-bg:   #161616;
+  --cat-fretboard-text: #a0a0a0;
+  --cat-fretboard-border: #3a3a3a;
+  --cat-top-bg:         #2a1a10;
+  --cat-top-text:       #c49060;
+  --cat-top-border:     #6b3818;
+  --cat-carpentry-bg:   #1a1c20;
+  --cat-carpentry-text: #8a9aaa;
+  --cat-carpentry-border: #2e3a46;
+  --cat-finished-bg:    #241e10;
+  --cat-finished-text:  #b8a060;
+  --cat-finished-border: #5a4a1a;
+  --cat-default-bg:     #1e1e1e;
+  --cat-default-text:   #8a8a8a;
+  --cat-default-border: #383838;
+}
+
+
+/* ── Accent tokens — per theme (dark) ───────────────────────── */
+
+:root,
+[data-theme="amber"] {
+  --accent:            #e6a817;
+  --accent-dim:        rgba(230, 168, 23, 0.12);
+  --accent-foreground: #0e0e10;
+}
+
+[data-theme="beeswax"] {
+  --accent:            #f5c842;
+  --accent-dim:        rgba(245, 200, 66, 0.12);
+  --accent-foreground: #0e0e10;
+}
+
+[data-theme="maple"] {
+  --accent:            #c97c2a;
+  --accent-dim:        rgba(201, 124, 42, 0.12);
+  --accent-foreground: #f4f4f5;
+}
+
+[data-theme="mahogany"] {
+  --accent:            #b5622a;
+  --accent-dim:        rgba(181, 98, 42, 0.12);
+  --accent-foreground: #f4f4f5;
+}
+
+[data-theme="spruce"] {
+  --accent:            #d4a574;
+  --accent-dim:        rgba(212, 165, 116, 0.12);
+  --accent-foreground: #0e0e10;
+}
+
+/* Swatch colours (for theme picker — always the dark accent) */
+:root {
+  --swatch-beeswax:  #f5c842;
+  --swatch-amber:    #e6a817;
+  --swatch-maple:    #c97c2a;
+  --swatch-mahogany: #b5622a;
+  --swatch-spruce:   #d4a574;
+}
+
+
+/* ── Light mode ─────────────────────────────────────────────── */
+
+.light {
+  /* ── Surfaces ── */
+  --background:        #f5f5f4;
+  --foreground:        #1c1917;
+  --card:              #ffffff;
+  --card-foreground:   #1c1917;
+  --popover:           #ffffff;
+  --popover-foreground:#1c1917;
+  --muted:             #f0efee;
+  --muted-foreground:  #78716c;
+
+  /* ── Borders & inputs ── */
+  --border:            #e7e5e4;
+  --border-strong:     #d6d3d1;
+  --input:             #fafaf9;
+  --input-border:      #d6d3d1;
+  --ring:              var(--accent);
+
+  /* ── Text hierarchy ── */
+  --text-primary:      #1c1917;
+  --text-secondary:    #44403c;
+  --text-tertiary:     #78716c;
+  --text-muted:        #a8a29e;
+  --text-faint:        #d6d3d1;
+  --text-dim:          #a8a29e;
+
+  /* ── Interactive states ── */
+  --hover-bg:          rgba(0, 0, 0, 0.04);
+  --surface-raised:    #fafaf9;
+  --row-border:        #f0efee;
+  --row-hover:         #fafaf9;
+
+  /* ── Sidebar-specific ── */
+  --sidebar-rail:      #d6d3d1;
+  --sidebar-hover:     #f5f5f4;
+
+  /* ── Semantic ── */
+  --success:           #10b981;
+  --success-foreground:#ffffff;
+  --error:             #dc2626;
+  --error-foreground:  #ffffff;
+  --error-bg:          #ef4444;
+  --warning:           #b45309;
+  --warning-foreground:#ffffff;
+  --info:              #0369a1;
+  --info-foreground:   #ffffff;
+  --destructive:       #ef4444;
+  --destructive-foreground: #ffffff;
+
+  /* ── Edit mode ── */
+  --edit-accent:       #3b82f6;
+  --edit-bg:           #2563eb;
+  --edit-surface:      #eff6ff;
+  --edit-active-row:   #eff6ff;
+
+  /* ── Toggle ── */
+  --toggle-on:         #16a34a;
+
+  /* ── Category badges ── */
+  --cat-body-bg:        #fdf3ea;
+  --cat-body-text:      #8b5a2b;
+  --cat-body-border:    #d4a06a;
+  --cat-neck-bg:        #fdf0f3;
+  --cat-neck-text:      #8b3a4f;
+  --cat-neck-border:    #d48090;
+  --cat-fretboard-bg:   #f5f5f5;
+  --cat-fretboard-text: #4a4a4a;
+  --cat-fretboard-border: #c0c0c0;
+  --cat-top-bg:         #fef5ec;
+  --cat-top-text:       #8b5230;
+  --cat-top-border:     #d49060;
+  --cat-carpentry-bg:   #f0f4f8;
+  --cat-carpentry-text: #3a5a6a;
+  --cat-carpentry-border: #9ab0c0;
+  --cat-finished-bg:    #fdf8ea;
+  --cat-finished-text:  #7a6020;
+  --cat-finished-border: #c8a840;
+  --cat-default-bg:     #f5f5f5;
+  --cat-default-text:   #5a5a5a;
+  --cat-default-border: #c0c0c0;
+}
+
+/* ── Light mode accent overrides ────────────────────────────── */
+
+.light,
+.light[data-theme="amber"] {
+  --accent:            #c48b0a;
+  --accent-dim:        rgba(196, 139, 10, 0.10);
+  --accent-foreground: #ffffff;
+}
+
+.light[data-theme="beeswax"] {
+  --accent:            #b89a00;
+  --accent-dim:        rgba(184, 154, 0, 0.10);
+  --accent-foreground: #ffffff;
+}
+
+.light[data-theme="maple"] {
+  --accent:            #a85e14;
+  --accent-dim:        rgba(168, 94, 20, 0.10);
+  --accent-foreground: #ffffff;
+}
+
+.light[data-theme="mahogany"] {
+  --accent:            #9a4118;
+  --accent-dim:        rgba(154, 65, 24, 0.10);
+  --accent-foreground: #ffffff;
+}
+
+.light[data-theme="spruce"] {
+  --accent:            #8c6440;
+  --accent-dim:        rgba(140, 100, 64, 0.10);
+  --accent-foreground: #ffffff;
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   SECTION 2 — @theme inline (Tailwind v4 utility registration)
+
+   @theme inline tells Tailwind these values resolve at runtime
+   (via CSS variables) rather than at build time. This is required
+   for dark/light mode switching to work.
+
+   Naming convention:
+     --color-*       → bg-*, text-*, border-*, ring-*, etc.
+     --font-*        → font-*
+     --spacing-*     → p-*, m-*, gap-*, w-*, h-*
+     --radius-*      → rounded-*
+     --ease-*        → ease-*
+     --duration-*    → duration-*
+   ════════════════════════════════════════════════════════════════ */
+
+@theme inline {
+  /* ── Base palette ── */
+  --color-background:         var(--background);
+  --color-foreground:         var(--foreground);
+  --color-card:               var(--card);
+  --color-card-foreground:    var(--card-foreground);
+  --color-popover:            var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-muted:              var(--muted);
+  --color-muted-foreground:   var(--muted-foreground);
+
+  /* ── Accent (theme-dependent) ── */
+  --color-accent:             var(--accent);
+  --color-accent-dim:         var(--accent-dim);
+  --color-accent-foreground:  var(--accent-foreground);
+
+  /* ── Borders & inputs ── */
+  --color-border:             var(--border);
+  --color-border-strong:      var(--border-strong);
+  --color-input:              var(--input);
+  --color-input-border:       var(--input-border);
+  --color-ring:               var(--ring);
+
+  /* ── Text hierarchy ── */
+  --color-text-primary:       var(--text-primary);
+  --color-text-secondary:     var(--text-secondary);
+  --color-text-tertiary:      var(--text-tertiary);
+  --color-text-muted:         var(--text-muted);
+  --color-text-faint:         var(--text-faint);
+  --color-text-dim:           var(--text-dim);
+
+  /* ── Interactive states ── */
+  --color-hover-bg:           var(--hover-bg);
+  --color-surface-raised:     var(--surface-raised);
+  --color-row-border:         var(--row-border);
+  --color-row-hover:          var(--row-hover);
+
+  /* ── Sidebar ── */
+  --color-sidebar-rail:       var(--sidebar-rail);
+  --color-sidebar-hover:      var(--sidebar-hover);
+
+  /* ── Semantic ── */
+  --color-success:            var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-error:              var(--error);
+  --color-error-foreground:   var(--error-foreground);
+  --color-error-bg:           var(--error-bg);
+  --color-warning:            var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info:               var(--info);
+  --color-info-foreground:    var(--info-foreground);
+  --color-destructive:        var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  /* ── Edit mode (blue) ── */
+  --color-edit-accent:        var(--edit-accent);
+  --color-edit-bg:            var(--edit-bg);
+  --color-edit-surface:       var(--edit-surface);
+  --color-edit-active-row:    var(--edit-active-row);
+
+  /* ── Category badges ── */
+  --color-cat-body-bg:        var(--cat-body-bg);
+  --color-cat-body-text:      var(--cat-body-text);
+  --color-cat-body-border:    var(--cat-body-border);
+  --color-cat-neck-bg:        var(--cat-neck-bg);
+  --color-cat-neck-text:      var(--cat-neck-text);
+  --color-cat-neck-border:    var(--cat-neck-border);
+  --color-cat-fretboard-bg:   var(--cat-fretboard-bg);
+  --color-cat-fretboard-text: var(--cat-fretboard-text);
+  --color-cat-fretboard-border: var(--cat-fretboard-border);
+  --color-cat-top-bg:         var(--cat-top-bg);
+  --color-cat-top-text:       var(--cat-top-text);
+  --color-cat-top-border:     var(--cat-top-border);
+  --color-cat-carpentry-bg:   var(--cat-carpentry-bg);
+  --color-cat-carpentry-text: var(--cat-carpentry-text);
+  --color-cat-carpentry-border: var(--cat-carpentry-border);
+  --color-cat-finished-bg:    var(--cat-finished-bg);
+  --color-cat-finished-text:  var(--cat-finished-text);
+  --color-cat-finished-border: var(--cat-finished-border);
+  --color-cat-default-bg:     var(--cat-default-bg);
+  --color-cat-default-text:   var(--cat-default-text);
+  --color-cat-default-border: var(--cat-default-border);
+}
+
+/*
+   Font families, spacing, radius, and transitions use static
+   values, so they go in a regular @theme block (resolved at
+   build time — no runtime switching needed).
+*/
+
+@theme {
+  /* ── Font families ── */
+  --font-brand: 'Cormorant', 'Georgia', serif;
+  --font-sans:  'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:  'IBM Plex Mono', monospace;
+
+  /* ── Spacing (layout tokens) ── */
+  --spacing-sidebar:           232px;
+  --spacing-sidebar-collapsed: 52px;
+  --spacing-header:            48px;
+
+  /* ── Border radius ── */
+  --radius-sm:   4px;
+  --radius-md:   6px;
+  --radius-DEFAULT: 7px;
+  --radius-lg:   8px;
+  --radius-xl:   10px;
+  --radius-2xl:  12px;
+  --radius-full: 20px;
+
+  /* ── Transition ── */
+  --ease-sidebar: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-sidebar: 220ms;
+}

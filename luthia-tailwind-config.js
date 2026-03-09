@@ -1,5 +1,5 @@
 /**
- * Luthia — Tailwind Theme Extension
+ * Luthia — Tailwind v3 Theme Extension
  *
  * Maps the CSS custom properties from luthia-tailwind-theme.css
  * to Tailwind utility classes. Import this into tailwind.config.ts.
